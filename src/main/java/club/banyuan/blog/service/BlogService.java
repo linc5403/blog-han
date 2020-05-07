@@ -9,7 +9,7 @@ import java.util.List;
 public class BlogService {
     public List<Blog> findBlogs(User user) {
         List<Blog> blogs = new ArrayList<>();
-        for (Integer i = 0; i < 10; i++) {
+        for (Integer i = 0; i < 100; i++) {
             Blog blog = new Blog(i, "title " + i, "content " + i);
             blogs.add(blog);
         }
