@@ -12,7 +12,7 @@ public class BlogService {
     public List<Blog> findBlogs(User user) {
         List<Blog> blogs = new ArrayList<>();
         for (Integer i = 0; i < 100; i++) {
-            Blog blog = new Blog(i, "title " + i, "content " + i);
+            Blog blog = new Blog();
             blogs.add(blog);
         }
         return blogs;

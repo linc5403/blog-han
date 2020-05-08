@@ -1,22 +1,20 @@
 package club.banyuan.blog.bean;
 
-public class Blog {
-    public Blog(Integer blogId, String title, String content) {
-        this.blogId = blogId;
-        this.title = title;
-        this.content = content;
-    }
+import java.util.Date;
 
-    private Integer blogId;
+public class Blog {
+    private Integer id;
     private String title;
     private String content;
+    private Date createdTime;
+    private User author;
 
-    public Integer getBlogId() {
-        return blogId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setBlogId(Integer blogId) {
-        this.blogId = blogId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -35,12 +33,19 @@ public class Blog {
         this.content = content;
     }
 
-    @Override
-    public String toString() {
-        return "Blog{" +
-                "blogId=" + blogId +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }
