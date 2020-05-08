@@ -36,11 +36,13 @@ public class UserController {
             size = 10;
         }
 
+        // page = 11, size = 10
+
         List<Blog> totalList = blogService.findBlogs(userService.findByName(username));
-        int totalSize = totalList.size();
-        int begin = (page-1) * size;
-        int end = page * size -1;
-        if (begin > totalSize) {
+        int totalSize = totalList.size(); // 100 [0.. 99]
+        int begin = (page-1) * size; // 100
+        int end = page * size -1;    // 109
+        if (begin >= totalSize) {
             // 开始就已经超出范围了，显示最后一页的内容
             if (totalSize % size == 0) {
                 begin = totalSize - size;
