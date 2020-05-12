@@ -9,6 +9,17 @@ public class Blog {
     private Date createdTime;
     private User author;
 
+    @Override
+    public String toString() {
+        return "Blog{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createdTime=" + createdTime +
+                ", author=" + author +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }

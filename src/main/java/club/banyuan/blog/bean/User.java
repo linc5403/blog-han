@@ -5,7 +5,16 @@ public class User {
     private String name;
     private String password;
     private String email;
-    private String avatar;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 
     public Integer getId() {
         return id;
@@ -39,11 +48,4 @@ public class User {
         this.email = email;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
 }
