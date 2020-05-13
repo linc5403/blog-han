@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <p th:text="${#httpServletRequest.getAttribute('javax.servlet.error.request_uri')}"></p>
+    <p class="error-details" th:text="${status}"></p>
+    <p class="error-details" th:text="${error}"></p>
+    <p th:text="${message}"></p>
+</head>
+<body>
+
+</body>
+</html>
