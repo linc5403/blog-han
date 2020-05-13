@@ -11,5 +11,6 @@ public interface BlogDao {
     // @Select("select * from blog where id = #{id}")
     public Blog findBlogById(Integer id);
     public List<Blog> findBlogsByUserId(Integer userId);
+    public List<Blog> findBlogsByUsername(String username);
 
 }

@@ -22,4 +22,9 @@
         select blog.id , blog.title , blog.content , blog.created_time , blog.user_id , user.name , user.password , user.email
         from blog left join user on blog.user_id = user.id  where user.id = #{userId}
     </select>
+
+    <select id="findBlogsByUsername" resultMap="blogMap">
+        select blog.id , blog.title , blog.content , blog.created_time , blog.user_id , user.name , user.password , user.email
+        from blog left join user on blog.user_id = user.id  where user.name = #{username}
+    </select>
 </mapper>

@@ -23,6 +23,11 @@ public class BlogService {
         return new PageInfo(blogDao.findBlogsByUserId(user.getId()));
     }
 
+    public PageInfo findBlogsByUsername(String username, Integer page, Integer size) {
+        PageHelper.startPage(page, size, "id asc");
+        return new PageInfo(blogDao.findBlogsByUsername(username));
+    }
+
     public Blog findBlogById(Integer id) {
         Blog blog = blogDao.findBlogById(id);
         return blog;
