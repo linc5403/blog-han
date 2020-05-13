@@ -76,6 +76,13 @@
 			<version>2.1.1</version>
 		</dependency>
 
+		<!-- pageHelper -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>5.1.10</version>
+		</dependency>
+
 		<!--        mysql-->
 		<dependency>
 			<groupId>mysql</groupId>

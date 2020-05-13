@@ -3,6 +3,8 @@ package club.banyuan.blog.service;
 import club.banyuan.blog.bean.Blog;
 import club.banyuan.blog.bean.User;
 import club.banyuan.blog.dao.BlogDao;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +17,14 @@ public class BlogService {
     @Autowired
     BlogDao blogDao;
 
-    public List<Blog> findBlogs(User user) {
-        List<Blog> blogs = new ArrayList<>();
-        for (Integer i = 0; i < 100; i++) {
-            Blog blog = new Blog();
-            blogs.add(blog);
-        }
-        return blogs;
+    public PageInfo findBlogs(User user, Integer page, Integer size) {
+        //  根据user对象获取该user的所有blog
+        PageHelper.startPage(page, size, "id asc");
+        return new PageInfo(blogDao.findBlogsByUserId(user.getId()));
     }
 
     public Blog findBlogById(Integer id) {
-        blogDao.findBlogById(id);
-        return null;
+        Blog blog = blogDao.findBlogById(id);
+        return blog;
     }
 }

@@ -4,7 +4,10 @@ import club.banyuan.blog.bean.Blog;
 import club.banyuan.blog.bean.User;
 import club.banyuan.blog.service.BlogService;
 import club.banyuan.blog.service.UserService;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +19,11 @@ import java.util.List;
 @Controller
 public class UserController {
 
+    @Autowired
+    private BlogService blogService;
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/user/{username:[0-9a-z_]+}")
     @ResponseBody
     public User showUser(@PathVariable String username){
@@ -23,13 +31,20 @@ public class UserController {
         return userService.findByName(username);
     }
 
-    @GetMapping("/user/blogs/{username:[0-9a-z_]+}")
-    @ResponseBody
-    public List<Blog> showBlogs(@PathVariable String username,
-                                @RequestParam(defaultValue = "1",required = false) Integer page,
-                                @RequestParam(defaultValue = "10",required = false) Integer size){
-        BlogService blogService = new BlogService();
-        UserService userService = new UserService();
+    @GetMapping("/blogger/{username:[0-9a-z_]+}")
+    // @ResponseBody
+    public String showBlogs(@PathVariable String username,
+                            @RequestParam(defaultValue = "1",required = false) Integer page,
+                            @RequestParam(defaultValue = "10",required = false) Integer size,
+                            Model model
+                            ){
+
+        User user = userService.findByName(username);
+        PageInfo info = blogService.findBlogs(user, page, size);
+        model.addAttribute("user", user);
+        model.addAttribute("blogs", info);
+        return "list";
+        /*
         List<Blog> list = new ArrayList<>();
         if (page <= 0 || size <= 0) {
             page = 1;
@@ -38,7 +53,8 @@ public class UserController {
 
         // page = 11, size = 10
 
-        List<Blog> totalList = blogService.findBlogs(userService.findByName(username));
+        User user = userService.findByName(username);
+        List<Blog> totalList = blogService.findBlogs(user);
         int totalSize = totalList.size(); // 100 [0.. 99]
         int begin = (page-1) * size; // 100
         int end = page * size -1;    // 109
@@ -58,6 +74,7 @@ public class UserController {
         }
 
         return totalList.subList(begin, end+1);
+        */
     }
 }
 
