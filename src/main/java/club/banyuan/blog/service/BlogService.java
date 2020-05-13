@@ -25,7 +25,7 @@ public class BlogService {
     }
 
     public Blog findBlogById(Integer id) {
-        // ?? dao
+        blogDao.findBlogById(id);
         return null;
     }
 }
