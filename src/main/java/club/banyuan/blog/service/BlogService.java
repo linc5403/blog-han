@@ -17,8 +17,18 @@ public class BlogService {
     @Autowired
     BlogDao blogDao;
 
+    @Autowired
+    UserService userService;
+
     public PageInfo findBlogs(User user, Integer page, Integer size) {
         //  根据user对象获取该user的所有blog
+        PageHelper.startPage(page, size, "id asc");
+        return new PageInfo(blogDao.findBlogsByUserId(user.getId()));
+    }
+
+    public PageInfo findBlogsByUsername(String username, Integer page, Integer size) {
+        //  根据username获取该user的所有blog
+        User user = userService.findByName(username);
         PageHelper.startPage(page, size, "id asc");
         return new PageInfo(blogDao.findBlogsByUserId(user.getId()));
     }

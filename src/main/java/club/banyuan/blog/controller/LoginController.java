@@ -40,6 +40,6 @@ public class LoginController {
         PageInfo info = blogService.findBlogs(user, 1, 10);
 
         model.addAttribute("blogs", info);
-        return "admin-blogs";
+        return "redirect:/admin/" + username;
     }
 }
