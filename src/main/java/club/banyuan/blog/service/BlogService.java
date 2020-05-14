@@ -3,6 +3,7 @@ package club.banyuan.blog.service;
 import club.banyuan.blog.bean.Blog;
 import club.banyuan.blog.bean.User;
 import club.banyuan.blog.dao.BlogDao;
+import club.banyuan.blog.exception.NotFoundException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,10 @@ public class BlogService {
     public PageInfo findBlogsByUsername(String username, Integer page, Integer size) {
         //  根据username获取该user的所有blog
         User user = userService.findByName(username);
-        PageHelper.startPage(page, size, "id asc");
-        return new PageInfo(blogDao.findBlogsByUserId(user.getId()));
+        if (user == null) {
+            throw new NotFoundException("没有这个用户");
+        }
+        return findBlogs(user, page, size);
     }
 
     public Blog findBlogById(Integer id) {
