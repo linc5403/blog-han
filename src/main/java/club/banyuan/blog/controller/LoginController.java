@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -33,6 +34,7 @@ public class LoginController {
     @PostMapping
     public String login(@RequestParam(name="username1") String username,
                         @RequestParam String password,
+                        HttpSession session,
                         Model model
     ) throws UnsupportedEncodingException {
         // 验证用户登录
@@ -41,6 +43,8 @@ public class LoginController {
             model.addAttribute("message", "aaaaa");
             return "login";
         }
+        // 将用户信息放入session
+        session.setAttribute("CURRENT_USER", user);
         PageInfo info = blogService.findBlogs(user, 1, 10);
 
         model.addAttribute("blogs", info);
