@@ -1,5 +1,6 @@
 package club.banyuan.blog.controller;
 
+import club.banyuan.blog.bean.Blog;
 import club.banyuan.blog.bean.User;
 import club.banyuan.blog.service.BlogService;
 import com.github.pagehelper.PageInfo;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
@@ -41,5 +43,28 @@ public class AdminController {
         PageInfo info = blogService.findBlogsByUsername(username, page, size);
         model.addAttribute("blogs", info);
         return "admin-blogs";
+    }
+
+    @GetMapping("/admin/blog/{id}/edit")
+    public String adminBlog(
+            @PathVariable Integer id,
+            Model model
+    ) {
+        //get blog
+        Blog blog = blogService.findBlogById(id);
+        model.addAttribute("blog", blog);
+        return "edit";
+    }
+
+    @PostMapping("/admin/blog/{id}/edit")
+    public String editBlog(
+            HttpSession session,
+            @RequestParam String title,
+            @RequestParam String content,
+            @PathVariable Integer id) throws UnsupportedEncodingException {
+        // 保存这篇blog
+        blogService.saveBlog(id, title, content);
+        String username = ((User)session.getAttribute("CURRENT_USER")).getName();
+        return "redirect:/admin/" + URLEncoder.encode(username, "UTF-8");
     }
 }

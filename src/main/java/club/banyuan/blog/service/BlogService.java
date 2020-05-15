@@ -40,4 +40,8 @@ public class BlogService {
         Blog blog = blogDao.findBlogById(id);
         return blog;
     }
+
+    public void saveBlog(Integer id, String title, String content) {
+        blogDao.saveBlog(id, title, content);
+    }
 }
