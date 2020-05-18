@@ -36,4 +36,8 @@
         update blog set title = #{title}, content = #{content} where id = #{id}
     </update>
 
+    <delete id="deleteBlog">
+        delete from blog where id = #{id}
+    </delete>
+
 </mapper>

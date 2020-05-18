@@ -1,9 +1,11 @@
 package club.banyuan.blog.bean;
 
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class Blog {
     private Integer id;
+    @Size(min=10, max = 20)
     private String title;
     private String content;
     private Date createdTime;

@@ -7,12 +7,11 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -56,14 +55,22 @@ public class AdminController {
         return "edit";
     }
 
-    @PostMapping("/admin/blog/{id}/edit")
+    @PutMapping("/admin/blog/{id}/edit")
     public String editBlog(
             HttpSession session,
-            @RequestParam String title,
+            @Valid @RequestParam @Size(min=10, max=20) String title,
             @RequestParam String content,
             @PathVariable Integer id) throws UnsupportedEncodingException {
         // 保存这篇blog
         blogService.saveBlog(id, title, content);
+        String username = ((User)session.getAttribute("CURRENT_USER")).getName();
+        return "redirect:/admin/" + URLEncoder.encode(username, "UTF-8");
+    }
+
+    @DeleteMapping("/admin/blog/{id}")
+    public String deleteBlog(@PathVariable Integer id,
+                             HttpSession session) throws UnsupportedEncodingException {
+        blogService.deleteBlog(id);
         String username = ((User)session.getAttribute("CURRENT_USER")).getName();
         return "redirect:/admin/" + URLEncoder.encode(username, "UTF-8");
     }

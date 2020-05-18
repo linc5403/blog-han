@@ -14,4 +14,5 @@ public interface BlogDao {
     public List<Blog> sortBlogs(String fieldName, String order);
     public List<Blog> selectAllBlogs();
     public void saveBlog(Integer id, String title, String content);
+    public void deleteBlog(Integer id);
 }

@@ -44,4 +44,8 @@ public class BlogService {
     public void saveBlog(Integer id, String title, String content) {
         blogDao.saveBlog(id, title, content);
     }
+
+    public void deleteBlog(Integer id) {
+        blogDao.deleteBlog(id);
+    }
 }
