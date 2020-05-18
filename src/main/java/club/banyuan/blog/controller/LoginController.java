@@ -45,9 +45,14 @@ public class LoginController {
         }
         // 将用户信息放入session
         session.setAttribute("CURRENT_USER", user);
-        PageInfo info = blogService.findBlogs(user, 1, 10);
 
-        model.addAttribute("blogs", info);
-        return "redirect:/admin/" + URLEncoder.encode(username, "UTF-8");
+        String next = (String)session.getAttribute("next");
+        if (next == null) {
+            PageInfo info = blogService.findBlogs(user, 1, 10);
+            model.addAttribute("blogs", info);
+            return "redirect:/admin/blog";
+        } else {
+            return "redirect:" + next;
+        }
     }
 }

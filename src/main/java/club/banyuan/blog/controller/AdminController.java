@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
@@ -21,9 +23,8 @@ public class AdminController {
     @Autowired
     BlogService blogService;
 
-    @GetMapping("/admin/{username}")
+    @GetMapping("/admin/blog")
     public String adminBlog(
-            @PathVariable String username,
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size,
             HttpSession session,
@@ -33,13 +34,9 @@ public class AdminController {
         User user = (User) session.getAttribute("CURRENT_USER");
         if (user == null) {
             return "redirect:/login";
-        } else {
-            if (!user.getName().equals(username)) {
-                return "redirect:/admin/" + URLEncoder.encode(user.getName(), "UTF-8");
-            }
         }
         // 返回博客管理页面
-        PageInfo info = blogService.findBlogsByUsername(username, page, size);
+        PageInfo info = blogService.findBlogsByUsername(user.getName(), page, size);
         model.addAttribute("blogs", info);
         return "admin-blogs";
     }
@@ -64,7 +61,7 @@ public class AdminController {
         // 保存这篇blog
         blogService.saveBlog(id, title, content);
         String username = ((User)session.getAttribute("CURRENT_USER")).getName();
-        return "redirect:/admin/" + URLEncoder.encode(username, "UTF-8");
+        return "redirect:/admin/blog";
     }
 
     @DeleteMapping("/admin/blog/{id}")
@@ -72,6 +69,20 @@ public class AdminController {
                              HttpSession session) throws UnsupportedEncodingException {
         blogService.deleteBlog(id);
         String username = ((User)session.getAttribute("CURRENT_USER")).getName();
-        return "redirect:/admin/" + URLEncoder.encode(username, "UTF-8");
+        return "redirect:/admin/blog";
+    }
+
+    @GetMapping("/admin")
+    public String UserAdmin(HttpSession session,
+                            HttpServletRequest req,
+                            Model model) {
+        User user = (User)session.getAttribute("CURRENT_USER");
+        if (user == null) {
+            session.setAttribute("next", req.getRequestURI());
+            return "redirect:/login";
+        } else {
+            model.addAttribute("user", user);
+            return "admin";
+        }
     }
 }
