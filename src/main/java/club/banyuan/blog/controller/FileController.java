@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 @Controller
 public class FileController {
 
-    private String ROOT = "/home/linc/avatar/";
+    private String ROOT = "/Users/banyuan/avatar/";
 
     @Autowired
     private ResourceLoader resourceLoader;
