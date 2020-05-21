@@ -30,11 +30,7 @@ public class AdminController {
             HttpSession session,
             Model model
             ) throws UnsupportedEncodingException {
-        // 判断用户是否已经登录已经是否可以访问这个页面
         User user = (User) session.getAttribute("CURRENT_USER");
-        if (user == null) {
-            return "redirect:/login";
-        }
         // 返回博客管理页面
         PageInfo info = blogService.findBlogsByUsername(user.getName(), page, size);
         model.addAttribute("blogs", info);
@@ -60,7 +56,6 @@ public class AdminController {
             @PathVariable Integer id) throws UnsupportedEncodingException {
         // 保存这篇blog
         blogService.saveBlog(id, title, content);
-        String username = ((User)session.getAttribute("CURRENT_USER")).getName();
         return "redirect:/admin/blog";
     }
 
@@ -77,12 +72,7 @@ public class AdminController {
                             HttpServletRequest req,
                             Model model) {
         User user = (User)session.getAttribute("CURRENT_USER");
-        if (user == null) {
-            session.setAttribute("next", req.getRequestURI());
-            return "redirect:/login";
-        } else {
-            model.addAttribute("user", user);
-            return "admin";
-        }
+        model.addAttribute("user", user);
+        return "admin";
     }
 }
