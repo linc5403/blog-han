@@ -68,11 +68,13 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String UserAdmin(HttpSession session,
+    public String userAdmin(HttpSession session,
                             HttpServletRequest req,
                             Model model) {
         User user = (User)session.getAttribute("CURRENT_USER");
         model.addAttribute("user", user);
         return "admin";
     }
+
+
 }

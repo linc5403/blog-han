@@ -17,7 +17,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 @Controller
-@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
@@ -26,12 +25,12 @@ public class LoginController {
     @Autowired
     private BlogService blogService;
 
-    @GetMapping
+    @GetMapping("/login")
     public String showLoginPage() {
         return "login";
     }
 
-    @PostMapping
+    @PostMapping("/login")
     public String login(@RequestParam(name="username1") String username,
                         @RequestParam String password,
                         HttpSession session,
@@ -54,5 +53,14 @@ public class LoginController {
         } else {
             return "redirect:" + next;
         }
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        User user = (User)session.getAttribute("CURRENT_USER");
+        if (user != null) {
+            session.removeAttribute("CURRENT_USER");
+        }
+        return "redirect:/";
     }
 }
