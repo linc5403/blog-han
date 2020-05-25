@@ -3,8 +3,10 @@ package club.banyuan.blog.controller;
 import club.banyuan.blog.bean.Blog;
 import club.banyuan.blog.bean.User;
 import club.banyuan.blog.service.BlogService;
+import club.banyuan.blog.service.UserService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.Principal;
 
 @Controller
 public class AdminController {
@@ -23,14 +26,19 @@ public class AdminController {
     @Autowired
     BlogService blogService;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/admin/blog")
     public String adminBlog(
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size,
             HttpSession session,
-            Model model
+            Model model,
+            Principal principal
             ) throws UnsupportedEncodingException {
-        User user = (User) session.getAttribute("CURRENT_USER");
+        String username = principal.getName();
+        User user = userService.findByName(username);
         // 返回博客管理页面
         PageInfo info = blogService.findBlogsByUsername(user.getName(), page, size);
         model.addAttribute("blogs", info);
@@ -63,15 +71,16 @@ public class AdminController {
     public String deleteBlog(@PathVariable Integer id,
                              HttpSession session) throws UnsupportedEncodingException {
         blogService.deleteBlog(id);
-        String username = ((User)session.getAttribute("CURRENT_USER")).getName();
         return "redirect:/admin/blog";
     }
 
     @GetMapping("/admin")
     public String userAdmin(HttpSession session,
                             HttpServletRequest req,
-                            Model model) {
-        User user = (User)session.getAttribute("CURRENT_USER");
+                            Model model,
+                            Principal principal) {
+        String username = principal.getName();
+        User user = userService.findByName(username);
         model.addAttribute("user", user);
         return "admin";
     }
