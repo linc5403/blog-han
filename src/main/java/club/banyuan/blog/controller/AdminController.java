@@ -10,13 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.security.Principal;
 
 @Controller
@@ -33,9 +31,11 @@ public class AdminController {
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer size,
             HttpSession session,
-            Model model
+            Model model,
+            Principal principal
             ) throws UnsupportedEncodingException {
-        User user = (User) session.getAttribute("CURRENT_USER");
+        String username = principal.getName();
+        User user = userService.findByName(username);
         // 返回博客管理页面
         PageInfo info = blogService.findBlogsByUsername(user.getName(), page, size);
         model.addAttribute("blogs", info);
@@ -68,7 +68,6 @@ public class AdminController {
     public String deleteBlog(@PathVariable Integer id,
                              HttpSession session) throws UnsupportedEncodingException {
         blogService.deleteBlog(id);
-        String username = ((User)session.getAttribute("CURRENT_USER")).getName();
         return "redirect:/admin/blog";
     }
 
