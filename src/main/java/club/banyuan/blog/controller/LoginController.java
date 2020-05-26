@@ -30,6 +30,7 @@ public class LoginController {
         return "login";
     }
 
+    /*
     @PostMapping("/login")
     public String login(@RequestParam(name="username1") String username,
                         @RequestParam String password,
@@ -63,4 +64,5 @@ public class LoginController {
         }
         return "redirect:/";
     }
+    */
 }

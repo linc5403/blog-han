@@ -3,6 +3,7 @@ package club.banyuan.blog.controller;
 import club.banyuan.blog.bean.Blog;
 import club.banyuan.blog.bean.User;
 import club.banyuan.blog.service.BlogService;
+import club.banyuan.blog.service.UserService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +17,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.Principal;
 
 @Controller
 public class AdminController {
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     BlogService blogService;
@@ -70,11 +75,12 @@ public class AdminController {
     @GetMapping("/admin")
     public String userAdmin(HttpSession session,
                             HttpServletRequest req,
-                            Model model) {
-        User user = (User)session.getAttribute("CURRENT_USER");
+                            Model model,
+                            Principal principal
+                            ) {
+        String username = principal.getName();
+        User user = userService.findByName(username);
         model.addAttribute("user", user);
         return "admin";
     }
-
-
 }
