@@ -1,7 +1,5 @@
 package club.banyuan.blog.bean;
 
-import lombok.Data;
-
 import java.io.Serializable;
 
 public class User implements Serializable {
