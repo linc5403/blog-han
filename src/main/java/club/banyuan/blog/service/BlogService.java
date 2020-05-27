@@ -7,6 +7,7 @@ import club.banyuan.blog.exception.NotFoundException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -47,5 +48,11 @@ public class BlogService {
 
     public void deleteBlog(Integer id) {
         blogDao.deleteBlog(id);
+    }
+
+    @CacheEvict(value = "index", allEntries = true)
+    public Integer addBlog(Blog blog) {
+        blogDao.insertBlog(blog);
+        return blog.getId();
     }
 }

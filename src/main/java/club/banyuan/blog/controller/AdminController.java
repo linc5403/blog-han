@@ -6,6 +6,7 @@ import club.banyuan.blog.service.BlogService;
 import club.banyuan.blog.service.UserService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,7 @@ public class AdminController {
     }
 
     @PutMapping("/admin/blog/{id}/edit")
+    @CacheEvict(value = "index", allEntries = true)
     public String editBlog(
             HttpSession session,
             @Valid @RequestParam @Size(min=10, max=20) String title,
@@ -81,5 +83,26 @@ public class AdminController {
         User user = userService.findByName(username);
         model.addAttribute("user", user);
         return "admin";
+    }
+
+    @GetMapping("/admin/blog/create")
+    public String showBlogCreatePage() {
+        return "create";
+    }
+
+    @PostMapping("/admin/blog/create")
+    String createBlog(@RequestParam(value = "title") String title,
+                      @RequestParam(value = "content") String content,
+                      Principal principal) {
+        //????blogger?????
+        User user = userService.findByName(principal.getName());
+        Blog blog = new Blog();
+        blog.setAuthor(user);
+        blog.setTitle(title);
+        blog.setContent(content);
+        // 将blog增加进数据库
+        Integer blogId = blogService.addBlog(blog);
+        // 展示所创建的blog ?? item.html
+        return "redirect:/blog/" + blogId;
     }
 }

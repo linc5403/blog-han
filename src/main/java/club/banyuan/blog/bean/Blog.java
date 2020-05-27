@@ -1,9 +1,10 @@
 package club.banyuan.blog.bean;
 
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Blog {
+public class Blog implements Serializable {
     private Integer id;
     @Size(min=10, max = 20)
     private String title;

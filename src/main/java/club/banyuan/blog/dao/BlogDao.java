@@ -15,4 +15,5 @@ public interface BlogDao {
     public List<Blog> selectAllBlogs();
     public void saveBlog(Integer id, String title, String content);
     public void deleteBlog(Integer id);
+    public void insertBlog(Blog blog);
 }
