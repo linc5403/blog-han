@@ -8,6 +8,7 @@ public class User implements Serializable {
     private String name;
     private String password;
     private String email;
+    private boolean activated;
 
     @Override
     public String toString() {
@@ -16,6 +17,7 @@ public class User implements Serializable {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", activated=" + activated +
                 '}';
     }
 
@@ -51,4 +53,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
 }
