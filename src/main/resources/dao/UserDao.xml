@@ -9,4 +9,14 @@
     <select id="getUserByName" resultType="club.banyuan.blog.bean.User">
         select * from user where name = #{name}
     </select>
+    <select id="getUserByEmail" resultType="club.banyuan.blog.bean.User">
+        select * from user where email = #{email}
+    </select>
+    <insert id="addUser">
+        insert into user (name, password, email)
+        values (#{name}, #{password}, #{email})
+    </insert>
+    <update id="activeUser" parameterType="club.banyuan.blog.bean.User">
+        update user set activated = 1 where id = #{id}
+    </update>
 </mapper>

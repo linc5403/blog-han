@@ -11,10 +11,20 @@ public class MailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendTestMail(String receiver, String content) {
+    public void sendMail(String receiver, String subject, String content) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(receiver);
-        simpleMailMessage.setSubject("spring mail test");
+        simpleMailMessage.setSubject(subject);
+        simpleMailMessage.setText(content);
+        simpleMailMessage.setFrom("linc1982@qq.com");
+
+        mailSender.send(simpleMailMessage);
+    }
+
+    public void sendTestMail(String receiver, String subject, String content) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(receiver);
+        simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(content);
         simpleMailMessage.setFrom("linc1982@qq.com");
 

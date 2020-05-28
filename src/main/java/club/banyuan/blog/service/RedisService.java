@@ -25,4 +25,14 @@ public class RedisService {
         listOperations.leftPush("b", "1");
         listOperations.leftPush("b", "2");
     }
+
+    public void setString(String k, String v, Integer timeout) {
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        valueOperations.set(k, v, timeout, TimeUnit.HOURS);
+    }
+
+    public String getString(String k) {
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        return valueOperations.get(k);
+    }
 }
