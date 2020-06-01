@@ -31,7 +31,7 @@ public class BlogApplication {
 		RedisService redisService = context.getBean(club.banyuan.blog.service.RedisService.class);
 		redisService.testRedis();
 
-		MailService mailService = context.getBean(club.banyuan.blog.service.MailService.class);
-		mailService.sendTestMail("linc1982@icloud.com", "哈哈哈", "这是一个消息");
+		//MailService mailService = context.getBean(club.banyuan.blog.service.MailService.class);
+		//mailService.sendTestMail("linc1982@icloud.com", "哈哈哈", "这是一个消息");
     }
 }
